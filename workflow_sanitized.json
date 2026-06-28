@@ -1,0 +1,629 @@
+{
+  "name": "AI Customer Support Ticket Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d1096c6d-86da-4df8-92ba-254539cb655e",
+              "name": "ticket_ID",
+              "value": "={{ Date.now() }}",
+              "type": "string"
+            },
+            {
+              "id": "b4ee68b7-af1a-4511-86c0-79e5957de4cc",
+              "name": "Full name",
+              "value": "={{ $json.question_dlkGky.value }}",
+              "type": "string"
+            },
+            {
+              "id": "7c542134-cdda-4c9b-9ccb-1cf20a52108e",
+              "name": "Email ID",
+              "value": "={{ $json.question_YrxBx6.value }}",
+              "type": "string"
+            },
+            {
+              "id": "9c8a3c59-954f-4ebb-9aed-5930915c9ea8",
+              "name": "Problem",
+              "value": "={{ $json.question_D5ZOZj.value }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1360,
+        -224
+      ],
+      "id": "d5b75b5b-3afb-4d4e-89bd-863886b8ba16",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Ticket database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fisCW-KWsaUz7SksfE2NkkZjq5ACf7rojAr_jjbMBxY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fisCW-KWsaUz7SksfE2NkkZjq5ACf7rojAr_jjbMBxY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ticket_id": "={{ $json.output[0].content[0].text.ticket_id }}",
+            "full name": "={{ $('Edit Fields').item.json['Full name'] }}",
+            "email ID": "={{ $('Edit Fields').item.json['Email ID'] }}",
+            "Problem they face": "={{ $('Edit Fields').item.json.Problem }}",
+            "Department": "={{ $json.output[0].content[0].text.department }}",
+            "Priority": "={{ $json.output[0].content[0].text.priority }}",
+            "Summary": "={{ $json.output[0].content[0].text.summary }}",
+            "Email Subject": "={{ $json.output[0].content[0].text.email_subject }}",
+            "Draft Reply": "={{ $json.output[0].content[0].text.draft_reply }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ticket_id",
+              "displayName": "ticket_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "full name",
+              "displayName": "full name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email ID",
+              "displayName": "email ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Problem they face",
+              "displayName": "Problem they face",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Department",
+              "displayName": "Department",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Subject",
+              "displayName": "Email Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Draft Reply",
+              "displayName": "Draft Reply",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -768,
+        -224
+      ],
+      "id": "df7f6271-14e9-4ab5-bfd7-8e42c1161cd6",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "YOUR_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4e9fbfb3-9f0d-40b8-8306-c60137ca9948",
+                    "leftValue": "={{ $json.Department }}",
+                    "rightValue": "Billing",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "3d47ebf9-6ef9-4099-b353-dcb86b20309f",
+                    "leftValue": "={{ $json.Department }}",
+                    "rightValue": "Technical",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "2fd5f669-8934-4af1-a400-67bd45b4fc71",
+                    "leftValue": "={{ $json.Department }}",
+                    "rightValue": "Sales",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "8f2cac05-da65-428e-b19d-812974e339b2",
+                    "leftValue": "={{ $json.Department }}",
+                    "rightValue": "General",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -560,
+        -256
+      ],
+      "id": "dd1082c3-4c58-4ada-841b-9e6e1a543332",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "YOUR_SLACK_CHANNEL_ID",
+          "mode": "list",
+          "cachedResultName": "all-sales-pipeline-insights"
+        },
+        "text": "=Ticket ID : {{ $json.ticket_id }}\n\nPriority : {{ $json.Priority }}\n\nNeed to fixed : {{ $json.Summary }}\n\n\n\n",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -112,
+        -432
+      ],
+      "id": "c0c99172-f333-4275-8524-f745aabb6029",
+      "name": "Billing Team",
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "YOUR_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "YOUR_SLACK_CHANNEL_ID",
+          "mode": "list",
+          "cachedResultName": "techinal_ticket"
+        },
+        "text": "=Ticket ID : {{ $json.ticket_id }}  \n\nPriority : {{ $json.Priority }}  \n\nNeed to fixed : {{ $json.Summary }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -112,
+        -240
+      ],
+      "id": "c2e8559a-601f-4f69-afc6-8b2ac7545b06",
+      "name": "Technical Team",
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "YOUR_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "YOUR_SLACK_CHANNEL_ID",
+          "mode": "list",
+          "cachedResultName": "sales_ticket"
+        },
+        "text": "=Ticket ID : {{ $json.ticket_id }}  \n\nPriority : {{ $json.Priority }}  \n\nNeed to fixed : {{ $json.Summary }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -112,
+        -48
+      ],
+      "id": "0ce3782d-3a6f-4577-9044-0fb1537c6c22",
+      "name": "Sales team",
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "YOUR_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "YOUR_SLACK_CHANNEL_ID",
+          "mode": "list",
+          "cachedResultName": "general-ticket"
+        },
+        "text": "=Ticket ID : {{ $json.ticket_id }} \n\nPriority : {{ $json.Priority }} \n\nNeed to fixed : {{ $json.Summary }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -112,
+        128
+      ],
+      "id": "a4d750d6-eeb1-4dc3-a60d-95300af9b5ef",
+      "name": "General Inquiry team",
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "YOUR_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formId": "eqpMWQ"
+      },
+      "type": "n8n-nodes-tallyforms.tallyTrigger",
+      "typeVersion": 2,
+      "position": [
+        -1584,
+        -224
+      ],
+      "id": "5edb1a13-3f58-4bd9-ba21-950bfc4bf2b7",
+      "name": "Customer Ticket",
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "credentials": {
+        "tallyApi": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "YOUR_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an experienced Customer Support AI working for a software company.\n\nYour responsibility is to analyze customer support requests and classify them accurately.\n\nBased on the customer's issue, determine:\n\n1. Department\n2. Priority\n3. Summary\n4. Email Subject\n5. Draft Reply\n\nDepartment Rules:\n- Billing \u2192 Payment issues, invoices, refunds, subscriptions, duplicate charges.\n- Technical \u2192 Login issues, bugs, website/app errors, password reset, account access.\n- Sales \u2192 Pricing, product information, demos, enterprise plans.\n- General \u2192 Any request that doesn't fit the above categories.\n\nPriority Rules:\n- High \u2192 Payment problems, security concerns, account access issues, service outages.\n- Medium \u2192 Technical bugs, feature issues, delayed services.\n- Low \u2192 General inquiries, feature requests, product information.\n\nInstructions:\n- Generate a short and accurate summary.\n- Create a professional email subject.\n- Write a polite, professional customer reply.\n- Include the provided Ticket ID inside the draft reply.\n- Return ONLY a valid JSON object.\n- Do not include markdown.\n- Do not include explanations.\n- Do not wrap the response inside code blocks.\n\nReturn this exact JSON structure:\n\n{\n  \"ticket_id\": \"\",\n  \"department\": \"\",\n  \"priority\": \"\",\n  \"summary\": \"\",\n  \"email_subject\": \"\",\n  \"draft_reply\": \"\"\n}"
+            },
+            {
+              "content": "=Customer Name:\n\n\nCustomer Email:\n{{ $json['Email ID'] }}\n\nTicket ID:\n{{ $json.ticket_ID }}\n\nCustomer Problem:\n{{ $json.Problem }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "textFormat": {
+            "textOptions": {
+              "type": "json_object"
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -1136,
+        -224
+      ],
+      "id": "689b7744-c226-4d0a-8203-6d59b7f22b29",
+      "name": "Draft emails and summary For teams",
+      "credentials": {
+        "openAiApi": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "YOUR_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Switch1').item.json['email ID'] }}",
+        "subject": "={{ $('Switch1').item.json['Email Subject'] }}",
+        "emailType": "text",
+        "message": "={{ $('Switch1').item.json['Draft Reply'] }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        -224
+      ],
+      "id": "9f66b917-147a-4bdd-b1ad-7675941847a9",
+      "name": "Send email",
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "YOUR_CREDENTIAL_NAME"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Draft emails and summary For teams",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Billing Team",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Technical Team",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sales team",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "General Inquiry team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Billing Team": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Technical Team": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sales team": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "General Inquiry team": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Ticket": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Draft emails and summary For teams": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "8cc85cef-9773-49f8-a4f4-81ad2cb94996",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "YOUR_INSTANCE_ID"
+  },
+  "nodeGroups": [],
+  "id": "m4Ib3Yy11LaYC3dc",
+  "tags": []
+}
