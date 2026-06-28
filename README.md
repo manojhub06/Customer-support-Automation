@@ -90,7 +90,7 @@ This workflow is built to be flexible. You can:
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
-## Workflow Images 
+## Workflow Image 
 
 <img width="923" height="327" alt="Screenshot 2026-06-26 182021" src="https://github.com/user-attachments/assets/721e7ebe-2768-4945-a103-2ad417623e24" />
 
